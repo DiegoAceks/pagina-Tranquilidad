@@ -3,363 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Para alegrarte</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      min-height: 100vh;
-      font-family: "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, #ffe1ec, transparent 35%),
-        radial-gradient(circle at bottom right, #dff6ff, transparent 35%),
-        linear-gradient(135deg, #fff7ed, #fff0f6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      color: #5c4a4a;
-      overflow-x: hidden;
-    }
-
-    .app {
-      width: 100%;
-      max-width: 430px;
-      min-height: 680px;
-      background: rgba(255, 255, 255, 0.82);
-      backdrop-filter: blur(12px);
-      border-radius: 32px;
-      padding: 24px;
-      box-shadow: 0 20px 50px rgba(255, 160, 190, 0.35);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .decoracion {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
-    }
-
-    .estrella,
-    .corazon,
-    .nube-mini {
-      position: absolute;
-      opacity: 0.75;
-      animation: flotar 5s ease-in-out infinite;
-    }
-
-    .estrella:nth-child(1) { top: 8%; left: 12%; }
-    .estrella:nth-child(2) { top: 22%; right: 10%; animation-delay: 1s; }
-    .corazon:nth-child(3) { bottom: 18%; left: 10%; animation-delay: 0.5s; }
-    .corazon:nth-child(4) { top: 50%; right: 12%; animation-delay: 1.4s; }
-    .nube-mini:nth-child(5) { bottom: 8%; right: 18%; animation-delay: 2s; }
-
-    @keyframes flotar {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
-
-    .pantalla {
-      display: none;
-      min-height: 620px;
-      position: relative;
-      z-index: 1;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      animation: aparecer 0.45s ease;
-    }
-
-    .pantalla.activa {
-      display: flex;
-    }
-
-    @keyframes aparecer {
-      from {
-        opacity: 0;
-        transform: translateY(18px) scale(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .badge {
-      background: #fff0f6;
-      color: #d86f91;
-      border: 1px solid #ffd2df;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      margin-bottom: 18px;
-    }
-
-    h1 {
-      font-size: 2.45rem;
-      line-height: 1.05;
-      color: #574246;
-      margin-bottom: 16px;
-    }
-
-    h1 span {
-      color: #ef7c9c;
-    }
-
-    h2 {
-      font-size: 1.85rem;
-      color: #574246;
-      margin-bottom: 12px;
-    }
-
-    p {
-      font-size: 1rem;
-      line-height: 1.6;
-      color: #6c5a5d;
-      margin-bottom: 18px;
-    }
-
-    .botones {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    button {
-      border: none;
-      cursor: pointer;
-      border-radius: 999px;
-      padding: 13px 18px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      transition: 0.25s ease;
-      box-shadow: 0 8px 18px rgba(255, 145, 175, 0.25);
-    }
-
-    button:hover {
-      transform: translateY(-3px) scale(1.03);
-    }
-
-    .btn-principal {
-      background: linear-gradient(135deg, #ff89aa, #ffb3c7);
-      color: white;
-    }
-
-    .btn-secundario {
-      background: #eee0ff;
-      color: #8a61ba;
-    }
-
-    .btn-verde {
-      background: #e3f8df;
-      color: #5e9b58;
-    }
-
-    .btn-amarillo {
-      background: #fff1c7;
-      color: #c48821;
-    }
-
-    .tarjeta {
-      width: 100%;
-      background: white;
-      border-radius: 26px;
-      padding: 22px;
-      box-shadow: 0 10px 28px rgba(185, 150, 160, 0.18);
-      border: 1px solid rgba(255, 210, 225, 0.8);
-      margin: 12px 0;
-    }
-
-    .nube {
-      background: white;
-      border: 2px solid #dcefff;
-      border-radius: 36px;
-      padding: 22px;
-      position: relative;
-      box-shadow: 0 12px 28px rgba(150, 190, 220, 0.25);
-      margin-bottom: 20px;
-    }
-
-    .nube::before,
-    .nube::after {
-      content: "";
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      border-top: 2px solid #dcefff;
-    }
-
-    .nube::before {
-      width: 55px;
-      height: 55px;
-      top: -25px;
-      left: 35px;
-    }
-
-    .nube::after {
-      width: 75px;
-      height: 75px;
-      top: -38px;
-      right: 45px;
-    }
-
-    .opciones-grid {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .opcion {
-      background: #fff;
-      border: 1px solid #ffdce7;
-      border-radius: 22px;
-      padding: 16px 10px;
-      font-weight: 600;
-      color: #76545c;
-      box-shadow: 0 8px 18px rgba(255, 170, 190, 0.18);
-      transition: 0.25s ease;
-    }
-
-    .opcion:hover {
-      transform: translateY(-4px);
-      background: #fff7fb;
-    }
-
-    .emoji {
-      font-size: 2rem;
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .mensaje-dinamico {
-      font-size: 1.05rem;
-      color: #6a555a;
-      background: #fff8fb;
-      border-radius: 22px;
-      padding: 18px;
-      border: 1px dashed #ffbad0;
-      margin: 15px 0;
-    }
-
-    .sorpresa-box {
-      display: none;
-      margin-top: 18px;
-      background: #fff9ee;
-      border-radius: 24px;
-      padding: 18px;
-      border: 1px solid #ffe0a8;
-      animation: aparecer 0.35s ease;
-    }
-
-    .sorpresa-box.visible {
-      display: block;
-    }
-
-    .nubes-grid {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .nube-btn {
-      background: #f2fbff;
-      color: #56859c;
-      border: 1px solid #ccecff;
-      box-shadow: 0 8px 18px rgba(140, 190, 210, 0.18);
-    }
-
-    .footer-frase {
-      font-size: 1.15rem;
-      line-height: 1.7;
-      background: linear-gradient(135deg, #fff0f6, #f2eaff);
-      border-radius: 28px;
-      padding: 24px;
-      border: 1px solid #efd9ff;
-    }
-
-    .progreso {
-      position: absolute;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 7px;
-      z-index: 2;
-    }
-
-    .punto {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #ffd1df;
-      opacity: 0.45;
-    }
-
-    .punto.activo {
-      width: 22px;
-      border-radius: 999px;
-      opacity: 1;
-      background: #ff8caf;
-    }
-
-    @media (max-width: 480px) {
-      body {
-        padding: 10px;
-      }
-
-      .app {
-        min-height: 95vh;
-        border-radius: 26px;
-        padding: 20px;
-      }
-
-      .pantalla {
-        min-height: 82vh;
-      }
-
-      h1 {
-        font-size: 2.05rem;
-      }
-
-      h2 {
-        font-size: 1.55rem;
-      }
-
-      .opciones-grid {
-        grid-template-columns: 1fr;
-      }
-
-      button {
-        width: 100%;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <main class="app">
 
     <div class="decoracion">
-      <span class="estrella">✨</span>
-      <span class="estrella">⭐</span>
-      <span class="corazon">💗</span>
-      <span class="corazon">🌷</span>
-      <span class="nube-mini">☁️</span>
+      <span>☁️</span>
+      <span>✨</span>
+      <span>🌷</span>
+      <span>⭐</span>
+      <span>💫</span>
+      <span>🌸</span>
+    </div>
+
+    <div class="barra-superior">
+      <p>Para alegrarte</p>
+      <span id="contadorPantalla">1 / 7</span>
     </div>
 
     <!-- Pantalla 1 -->
@@ -369,119 +33,193 @@
       <h1>Hey, hice esto <span>para alegrarte</span></h1>
 
       <p>
-        No sé exactamente cómo estuvo tu día,
-        pero quería dejarte un lugar bonito para respirar,
-        distraerte un poquito y sentirte acompañada.
+        No sé cómo estuvo tu día, pero quería dejarte un lugar bonito
+        para respirar, distraerte un poquito y sentirte acompañada.
       </p>
 
+      <div class="ilustracion-grande">☁️</div>
+
       <div class="botones">
-        <button class="btn-principal" onclick="mostrarPantalla(2)">Empezar ✨</button>
-        <button class="btn-secundario" onclick="mostrarPantalla(3); mensajeDirecto()">Necesito un abrazito ☁️</button>
+        <button class="btn-principal" onclick="irPantalla(2); lanzarBrillitos(event)">
+          Empezar ✨
+        </button>
+
+        <button class="btn-secundario" onclick="activarAbrazo(); lanzarBrillitos(event)">
+          Necesito un abrazito
+        </button>
+      </div>
+
+      <div class="burbuja oculto" id="burbujaAbrazo">
+        Te mando un abrazito virtual de esos que no arreglan todo,
+        pero sí acompañan bonito ☁️
       </div>
     </section>
 
     <!-- Pantalla 2 -->
     <section class="pantalla" id="pantalla-2">
       <h2>¿Cómo te sientes hoy?</h2>
-      <p>Elige una opción y te dejo un mensajito según lo que necesites.</p>
 
-      <div class="opciones-grid">
-        <button class="opcion" onclick="elegirEstado('triste')">
-          <span class="emoji">🥺</span>
+      <p>
+        Toca una opción y te dejaré un mensajito según lo que necesites ahora.
+      </p>
+
+      <div class="grid-opciones">
+        <button class="tarjeta-opcion" onclick="elegirEstado('triste'); lanzarBrillitos(event)">
+          <span>🥺</span>
           Estoy triste
         </button>
 
-        <button class="opcion" onclick="elegirEstado('cansada')">
-          <span class="emoji">😴</span>
+        <button class="tarjeta-opcion" onclick="elegirEstado('cansada'); lanzarBrillitos(event)">
+          <span>😴</span>
           Estoy cansada
         </button>
 
-        <button class="opcion" onclick="elegirEstado('estresada')">
-          <span class="emoji">😵‍💫</span>
+        <button class="tarjeta-opcion" onclick="elegirEstado('estresada'); lanzarBrillitos(event)">
+          <span>😵‍💫</span>
           Estoy estresada
         </button>
 
-        <button class="opcion" onclick="elegirEstado('reir')">
-          <span class="emoji">😄</span>
+        <button class="tarjeta-opcion" onclick="elegirEstado('reir'); lanzarBrillitos(event)">
+          <span>😄</span>
           Necesito reír
+        </button>
+
+        <button class="tarjeta-opcion tarjeta-larga" onclick="elegirEstado('noSe'); lanzarBrillitos(event)">
+          <span>🌧️</span>
+          No sé cómo me siento
         </button>
       </div>
     </section>
 
     <!-- Pantalla 3 -->
     <section class="pantalla" id="pantalla-3">
-      <div class="nube">
+      <div class="nube-mensaje">
         <h2>Mensajito para ti</h2>
-        <div class="mensaje-dinamico" id="mensajeEstado">
+        <p id="mensajeEstado">
           Respira. Lo estás haciendo mejor de lo que crees.
-        </div>
+        </p>
       </div>
 
       <div class="botones">
-        <button class="btn-principal" onclick="mostrarPantalla(4)">Dame una sorpresita 🎁</button>
-        <button class="btn-secundario" onclick="mostrarPantalla(2)">Cambiar cómo me siento</button>
+        <button class="btn-principal" onclick="irPantalla(4); lanzarBrillitos(event)">
+          Dame una sorpresita 🎁
+        </button>
+
+        <button class="btn-secundario" onclick="irPantalla(2)">
+          Cambiar mi respuesta
+        </button>
       </div>
     </section>
 
     <!-- Pantalla 4 -->
     <section class="pantalla" id="pantalla-4">
-      <h2>Elige una sorpresita</h2>
-      <p>Toca una opción. No todas dicen lo mismo, así que puedes probar varias.</p>
+      <h2>Caja de sorpresitas</h2>
 
-      <div class="opciones-grid">
-        <button class="opcion" onclick="mostrarSorpresa('mensaje')">
-          <span class="emoji">💌</span>
+      <p>
+        Toca una tarjeta. Cada una abre algo diferente para mejorar un poquito el día.
+      </p>
+
+      <div class="grid-opciones">
+        <button class="tarjeta-opcion" onclick="mostrarSorpresa('mensaje'); lanzarBrillitos(event)">
+          <span>💌</span>
           Mensaje bonito
         </button>
 
-        <button class="opcion" onclick="mostrarSorpresa('risa')">
-          <span class="emoji">🐱</span>
+        <button class="tarjeta-opcion" onclick="mostrarSorpresa('risa'); lanzarBrillitos(event)">
+          <span>🐱</span>
           Algo para reír
         </button>
 
-        <button class="opcion" onclick="mostrarSorpresa('plan')">
-          <span class="emoji">🍪</span>
+        <button class="tarjeta-opcion" onclick="mostrarSorpresa('plan'); lanzarBrillitos(event)">
+          <span>🍪</span>
           Mini plan
         </button>
 
-        <button class="opcion" onclick="mostrarSorpresa('frase')">
-          <span class="emoji">⭐</span>
+        <button class="tarjeta-opcion" onclick="mostrarSorpresa('frase'); lanzarBrillitos(event)">
+          <span>⭐</span>
           Frase random
         </button>
       </div>
 
-      <div class="sorpresa-box" id="sorpresaBox"></div>
+      <div class="resultado-sorpresa oculto" id="resultadoSorpresa"></div>
 
       <div class="botones">
-        <button class="btn-principal" onclick="mostrarPantalla(5)">Ir a nubecitas ☁️</button>
+        <button class="btn-principal" onclick="irPantalla(5)">
+          Ir a las nubecitas ☁️
+        </button>
       </div>
     </section>
 
     <!-- Pantalla 5 -->
     <section class="pantalla" id="pantalla-5">
       <h2>Nubecitas de apoyo</h2>
-      <p>Toca una nube y se abrirá un mensaje chiquito para ti.</p>
 
-      <div class="nubes-grid">
-        <button class="nube-btn" onclick="mensajeNube('tiempo')">☁️ Tómate tu tiempo</button>
-        <button class="nube-btn" onclick="mensajeNube('todo')">☁️ Hoy no tienes que poder con todo</button>
-        <button class="nube-btn" onclick="mensajeNube('presencia')">☁️ Tu presencia ya vale mucho</button>
-        <button class="nube-btn" onclick="mensajeNube('sola')">☁️ No estás sola</button>
+      <p>
+        Toca una nube y se abrirá un mensaje chiquito para ti.
+      </p>
+
+      <div class="contenedor-nubes">
+        <button onclick="mensajeNube('tiempo'); lanzarBrillitos(event)">☁️ Tómate tu tiempo</button>
+        <button onclick="mensajeNube('todo'); lanzarBrillitos(event)">☁️ No tienes que poder con todo</button>
+        <button onclick="mensajeNube('presencia'); lanzarBrillitos(event)">☁️ Tu presencia ya vale mucho</button>
+        <button onclick="mensajeNube('sola'); lanzarBrillitos(event)">☁️ No estás sola</button>
       </div>
 
-      <div class="mensaje-dinamico" id="mensajeNube">
+      <div class="burbuja visible" id="mensajeNube">
         Toca una nubecita para descubrir algo bonito.
       </div>
 
       <div class="botones">
-        <button class="btn-principal" onclick="mostrarPantalla(6)">Terminar con algo bonito 🌷</button>
+        <button class="btn-principal" onclick="irPantalla(6)">
+          Siguiente cosita bonita 🌷
+        </button>
       </div>
     </section>
 
     <!-- Pantalla 6 -->
     <section class="pantalla" id="pantalla-6">
-      <div class="footer-frase">
+      <h2>¿Qué necesitas ahora?</h2>
+
+      <p>
+        Elige algo simple. Nada complicado, solo una pequeña idea para sentirte mejor.
+      </p>
+
+      <div class="grid-opciones">
+        <button class="tarjeta-opcion" onclick="mostrarAntojito('dulce'); lanzarBrillitos(event)">
+          <span>🍩</span>
+          Algo dulce
+        </button>
+
+        <button class="tarjeta-opcion" onclick="mostrarAntojito('bebida'); lanzarBrillitos(event)">
+          <span>☕</span>
+          Bebidita
+        </button>
+
+        <button class="tarjeta-opcion" onclick="mostrarAntojito('bonito'); lanzarBrillitos(event)">
+          <span>📺</span>
+          Ver algo lindo
+        </button>
+
+        <button class="tarjeta-opcion" onclick="mostrarAntojito('descansar'); lanzarBrillitos(event)">
+          <span>🧸</span>
+          Solo descansar
+        </button>
+      </div>
+
+      <div class="resultado-sorpresa oculto" id="resultadoAntojito"></div>
+
+      <div class="botones">
+        <button class="btn-principal" onclick="irPantalla(7)">
+          Ver mensajito final ✨
+        </button>
+      </div>
+    </section>
+
+    <!-- Pantalla 7 -->
+    <section class="pantalla" id="pantalla-7">
+      <div class="mensaje-final">
         <h2>Antes de irte...</h2>
+
         <p>
           No tienes que estar al 100% para merecer cariño.
           Hoy solo quería recordarte que importas, que estás haciendo lo que puedes
@@ -490,109 +228,34 @@
       </div>
 
       <div class="botones">
-        <button class="btn-principal" onclick="mensajeFinal()">Dame otro mensajito 💗</button>
-        <button class="btn-secundario" onclick="mostrarPantalla(1)">Volver al inicio</button>
+        <button class="btn-principal" onclick="otroMensajeFinal(); lanzarBrillitos(event)">
+          Dame otro mensajito 💗
+        </button>
+
+        <button class="btn-secundario" onclick="irPantalla(1)">
+          Volver al inicio
+        </button>
       </div>
+
+      <div class="burbuja oculto" id="extraFinal"></div>
     </section>
 
-    <div class="progreso">
-      <span class="punto activo"></span>
-      <span class="punto"></span>
-      <span class="punto"></span>
-      <span class="punto"></span>
-      <span class="punto"></span>
-      <span class="punto"></span>
+    <div class="controles">
+      <button class="btn-atras" onclick="retroceder()">Atrás</button>
+
+      <div class="progreso">
+        <span class="punto activo"></span>
+        <span class="punto"></span>
+        <span class="punto"></span>
+        <span class="punto"></span>
+        <span class="punto"></span>
+        <span class="punto"></span>
+        <span class="punto"></span>
+      </div>
     </div>
+
   </main>
 
-  <script>
-    const pantallas = document.querySelectorAll(".pantalla");
-    const puntos = document.querySelectorAll(".punto");
-
-    function mostrarPantalla(numero) {
-      pantallas.forEach(pantalla => pantalla.classList.remove("activa"));
-      document.getElementById(`pantalla-${numero}`).classList.add("activa");
-
-      puntos.forEach(punto => punto.classList.remove("activo"));
-      puntos[numero - 1].classList.add("activo");
-    }
-
-    function elegirEstado(estado) {
-      const mensaje = document.getElementById("mensajeEstado");
-
-      const mensajes = {
-        triste: "Está bien sentirte así. No tienes que esconderlo ni resolver todo hoy. Respira suavecito, paso a paso.",
-        cansada: "Has cargado bastante. Descansar también cuenta como avanzar. Hoy mereces bajar el ritmo sin sentir culpa.",
-        estresada: "Suelta los hombros, toma aire y recuerda esto: no tienes que tener todo bajo control para estar haciendo las cosas bien.",
-        reir: "Entonces queda oficialmente activado el modo sonrisita. Baja un poquito más, que tengo algunas cositas para alegrarte."
-      };
-
-      mensaje.textContent = mensajes[estado];
-      mostrarPantalla(3);
-    }
-
-    function mensajeDirecto() {
-      document.getElementById("mensajeEstado").textContent =
-        "Te mando un abrazito virtual de esos que no arreglan todo, pero acompañan bonito.";
-    }
-
-    function mostrarSorpresa(tipo) {
-      const box = document.getElementById("sorpresaBox");
-
-      const sorpresas = {
-        mensaje: [
-          "Hoy hiciste lo que pudiste, y eso también merece reconocerse.",
-          "No necesitas ser fuerte todo el tiempo. También puedes pausar.",
-          "Aunque hoy pese, no significa que siempre será así."
-        ],
-        risa: [
-          "Mini misión: busca un video de gatitos haciendo travesuras. Es terapia autorizada.",
-          "Hoy se permite reírse por cualquier tontería. Sin explicaciones.",
-          "Tu tarea seria del día: encontrar algo tan absurdo que te saque una sonrisa."
-        ],
-        plan: [
-          "Plan recomendado: algo rico, una mantita y cero culpa.",
-          "Plan mini: agua, respiración profunda y cinco minutos sin exigirte nada.",
-          "Plan bonito: pon una canción tranquila y deja que el mundo espere un ratito."
-        ],
-        frase: [
-          "No estás fallando. Solo estás teniendo un día difícil.",
-          "Tu valor no baja cuando tu ánimo baja.",
-          "A veces sobrevivir al día ya es suficiente."
-        ]
-      };
-
-      const lista = sorpresas[tipo];
-      const random = lista[Math.floor(Math.random() * lista.length)];
-
-      box.textContent = random;
-      box.classList.add("visible");
-    }
-
-    function mensajeNube(tipo) {
-      const mensaje = document.getElementById("mensajeNube");
-
-      const nubes = {
-        tiempo: "No tienes que apurarte para sentirte mejor. Algunas cosas sanan despacito.",
-        todo: "Hoy puedes hacer menos. Eso no te hace débil, te hace humana.",
-        presencia: "Solo por existir ya haces una diferencia en este mundo. Gracias por ser tú.",
-        sola: "Aunque hoy te sientas solita, aquí hay un pequeño rincón hecho para acompañarte."
-      };
-
-      mensaje.textContent = nubes[tipo];
-    }
-
-    function mensajeFinal() {
-      const frases = [
-        "Te mereces días suaves, gente bonita y momentos que no pesen.",
-        "No olvides que incluso cuando dudas de ti, sigues siendo alguien increíble.",
-        "Mañana puede sentirse distinto. Por ahora, respira y quédate contigo.",
-        "Ojalá esta página te haya dado aunque sea una sonrisita pequeña."
-      ];
-
-      const random = frases[Math.floor(Math.random() * frases.length)];
-      alert(random);
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
